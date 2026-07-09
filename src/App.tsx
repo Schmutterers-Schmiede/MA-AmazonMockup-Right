@@ -25,7 +25,7 @@ export default function App() {
   const showHeader = activeTab !== 'rufus'
 
   return (
-    <div className="flex flex-col h-screen bg-[#EAEDED] overflow-hidden" style={{ fontFamily: "'Amazon Ember', Arial, sans-serif" }}>
+    <div className="flex flex-col h-dvh bg-[#EAEDED] overflow-hidden" style={{ fontFamily: "'Amazon Ember', Arial, sans-serif" }}>
       {showHeader && <Header activeTab={activeTab} />}
       <main className="flex-1 overflow-y-auto">
         {renderPage()}
