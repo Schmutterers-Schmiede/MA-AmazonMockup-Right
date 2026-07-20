@@ -8,6 +8,7 @@ import Browse from './pages/Browse'
 import Rufus from './pages/Rufus'
 import { getContext, nextUrl, INSTRUCTIONS } from './tallyFlow'
 import { InstructionsOverlay } from './InstructionsOverlay'
+import { GRIP_IMAGES } from './gripImages';
 
 export type Tab = 'home' | 'you' | 'basket' | 'browse' | 'rufus'
 
@@ -24,6 +25,7 @@ export default function App() {
 
   const startTimeRef = useRef<number>(Date.now())
   const timeToRufusRef = useRef<number | null>(null)
+  const ctx = getContext();
 
   function handleStart() {
     startTimeRef.current = Date.now() // timer starts here, not on page load
@@ -101,9 +103,10 @@ export default function App() {
       {/* Instructions overlay, shown until participant taps Start */}
       {showInstructions && (
         <InstructionsOverlay
-          title={INSTRUCTIONS.amazon_nav.title}
-          instructions={INSTRUCTIONS.amazon_nav.text}
+          title={INSTRUCTIONS.control_center.title}
+          instructions={INSTRUCTIONS.control_center.text}
           onStart={handleStart}
+          gripImage={GRIP_IMAGES[ctx.grip]}
         />
       )}
     </div>
