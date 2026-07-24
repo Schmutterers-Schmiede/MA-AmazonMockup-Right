@@ -84,8 +84,19 @@ export default function App() {
         {renderPage()}
       </main>
 
-      {/* Rate this prototype, floats just above the bottom nav */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+      {/* Info button (reopens instructions) + Rate button, floating just above the bottom nav */}
+      <div className="absolute left-1/2 -translate-x-1/2 z-40 flex items-center gap-2" style={{ bottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
+        <button
+          onClick={() => setShowInstructions(true)}
+          aria-label="Show instructions again"
+          className="w-11 h-11 rounded-full bg-white/90 text-gray-700 flex items-center justify-center shadow-md active:scale-95 transition-transform"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </button>
         <button
           onClick={handleRateClick}
           disabled={!hasVisitedRufus}
@@ -104,8 +115,8 @@ export default function App() {
       {/* Instructions overlay, shown until participant taps Start */}
       {showInstructions && (
         <InstructionsOverlay
-          title={INSTRUCTIONS.control_center.title}
-          instructions={INSTRUCTIONS.control_center.text}
+          title={INSTRUCTIONS.amazon_nav.title}
+          instructions={INSTRUCTIONS.amazon_nav.text}
           onStart={handleStart}
           gripImage={GRIP_IMAGES[ctx.grip]}
         />
