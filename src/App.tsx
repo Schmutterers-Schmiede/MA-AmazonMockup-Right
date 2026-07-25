@@ -21,24 +21,33 @@ declare global {
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home')
   const [showInstructions, setShowInstructions] = useState(true)
-  const [hasVisitedRufus, setHasVisitedRufus] = useState(false)
+  const [visitedTabs, setVisitedTabs] = useState<Record<Tab, boolean>>({
+    home: true, you: false, basket: false, browse: false, rufus: false,
+  }) // 'home' starts true since it's shown by default, no tap needed
+  const [hasVisitedAll, setHasVisitedAll] = useState(false)
 
   const startTimeRef = useRef<number>(Date.now())
-  const timeToRufusRef = useRef<number | null>(null)
+  const timeToAllVisitedRef = useRef<number | null>(null)
   const ctx = getContext();
 
   function handleStart() {
     startTimeRef.current = Date.now() // timer starts here, not on page load
-    timeToRufusRef.current = null
-    setHasVisitedRufus(false)
+    timeToAllVisitedRef.current = null
+    setVisitedTabs({ home: true, you: false, basket: false, browse: false, rufus: false })
+    setHasVisitedAll(false)
     setShowInstructions(false)
   }
 
   function handleTabChange(tab: Tab) {
     setActiveTab(tab)
-    if (tab === 'rufus' && !showInstructions && timeToRufusRef.current === null) {
-      timeToRufusRef.current = Date.now() - startTimeRef.current
-      setHasVisitedRufus(true)
+    if (!showInstructions && !visitedTabs[tab]) {
+      const updated = { ...visitedTabs, [tab]: true }
+      setVisitedTabs(updated)
+      const allVisited = Object.values(updated).every(Boolean)
+      if (allVisited && timeToAllVisitedRef.current === null) {
+        timeToAllVisitedRef.current = Date.now() - startTimeRef.current
+        setHasVisitedAll(true)
+      }
     }
   }
 
@@ -46,7 +55,7 @@ export default function App() {
     const ctx = getContext()
     // Falls back to time-since-start if they never completed the task,
     // so we still capture something rather than sending null.
-    const elapsed = timeToRufusRef.current ?? (Date.now() - startTimeRef.current)
+    const elapsed = timeToAllVisitedRef.current ?? (Date.now() - startTimeRef.current)
 
     window.Tally.openPopup('gD17jO', {
       layout: 'modal',
@@ -99,9 +108,9 @@ export default function App() {
         </button>
         <button
           onClick={handleRateClick}
-          disabled={!hasVisitedRufus}
+          disabled={!hasVisitedAll}
           className={`text-sm font-bold px-7 py-3 rounded-full transition-all ${
-            hasVisitedRufus
+            hasVisitedAll
               ? 'bg-blue-500 text-white shadow-[0_4px_20px_rgba(59,130,246,0.6)] active:scale-95'
               : 'bg-gray-300 text-gray-400 cursor-not-allowed'
           }`}
