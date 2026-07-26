@@ -115,7 +115,7 @@ export default function App() {
               : 'bg-gray-300 text-gray-400 cursor-not-allowed'
           }`}
         >
-          Done testing — Rate this
+          Rate Now
         </button>
       </div>
 
