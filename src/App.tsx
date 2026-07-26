@@ -6,8 +6,8 @@ import You from './pages/You'
 import Basket from './pages/Basket'
 import Browse from './pages/Browse'
 import Rufus from './pages/Rufus'
-import { getContext, nextUrl, INSTRUCTIONS } from './tallyFlow'
-import { InstructionsOverlay } from './InstructionsOverlay'
+import { getContext, nextUrl } from './tallyFlow'
+import { InstructionsOverlay } from './instructionsOverlay'
 import { GRIP_IMAGES } from './gripImages';
 
 export type Tab = 'home' | 'you' | 'basket' | 'browse' | 'rufus'
@@ -124,8 +124,7 @@ export default function App() {
       {/* Instructions overlay, shown until participant taps Start */}
       {showInstructions && (
         <InstructionsOverlay
-          title={INSTRUCTIONS.amazon_nav.title}
-          instructions={INSTRUCTIONS.amazon_nav.text}
+          variant={ctx.variant}
           onStart={handleStart}
           gripImage={GRIP_IMAGES[ctx.grip]}
         />
